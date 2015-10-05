@@ -1,26 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
+import func
 import Image
 import pylab
 import numpy
 
-def display(array):
-	for i in range(array.shape[0]):
-		y_axis = array[i]
-		x_axis = list(range(array[0].size))
-		pylab.plot(x_axis, y_axis, 'or-')
-		pylab.show()
+#FILE = "lBend.bmp"
+FILE = "sBend.bmp"
+im = pylab.array(Image.open(FILE).convert('L'))
+im = numpy.vectorize(func.extreme)(im)
 
-def extreme(value):
-	return (0 if value < 255 / 2 else 255)
+origin = pylab.array(Image.open(FILE).convert('L'))
+#func.display(origin[-1])
 
-def square(value):
-	return 255.0 * (value / 255.0)**2
+for i in range(0, im[-1].size):
+	if func.getline(im, (-1, i)):
+		print func.line
+		for tuple in func.line: 
+			origin[tuple] = func.BLACK
 
-
-im = pylab.array(Image.open("sBend.bmp").convert('L'))
-im = numpy.vectorize(square)(im)
-#display(im)
-
-im = Image.fromarray(im)
-im.show()
+origin = Image.fromarray(origin)
+origin.show()
