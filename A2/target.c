@@ -27,6 +27,25 @@ int main(void)
 	return 0;    
 } 
 
+/*
+
+void func1(int array[], int left, int right) {
+	int label = left;
+	int i = left + 1;
+
+	if (left >= right)
+		return;
+
+	for (; i <= right; i++)
+		func3(&array[i], &array[label++]);
+
+	func3(&array[left], &array[label]);
+
+	func1(array, left, label - 1);
+	func1(array, label + 1, right);
+}
+
+*/
 void func1(int array[],int i,int j)
 {	volatile int a=i,b=j;
 	int base = array[i];

@@ -1,23 +1,36 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
-import func
+from __future__ import division
 import Image
-import pylab
-import numpy
+import os
+import numpy as np
+from variable import *
+from prepro import *
+from func import *
 
-#FILE = "lBend.bmp"
-FILE = "sBend.bmp"
-im = pylab.array(Image.open(FILE).convert('L'))
-im = numpy.vectorize(func.extreme)(im)
+# Open image file (according to stdin)
+name = raw_input("Filename(bmp): ")
+bmp = Image.open(name)
+origin = np.array(bmp)
+im = np.vectorize(extreme)(bmp.convert('L'))
 
-origin = pylab.array(Image.open(FILE).convert('L'))
-#func.display(origin[-1])
+# Traversal the line XMAX and try to find border line
+lines = []
+for i in range(0, im[XMAX].size):
+	line = []
+	if findline(im, (XMAX, i), line) and len(line) > 5:
+		lines.append(line)
+		for pair in line:
+			origin[pair] = [255, 0, 0]
 
-for i in range(0, im[-1].size):
-	if func.getline(im, (-1, i)):
-		print func.line
-		for tuple in func.line: 
-			origin[tuple] = func.BLACK
+
+# Mark mid-line
+step = len(lines[0]) / len(lines[1])
+for i in range(len(lines[1])):
+	ni = (int)(step * i)
+	res = tuple([(x + y) // 2 for x, y in zip(lines[0][ni], lines[1][i])])
+	origin[res] = [255, 0, 0]
 
 origin = Image.fromarray(origin)
 origin.show()
+origin.save("pro" + name)

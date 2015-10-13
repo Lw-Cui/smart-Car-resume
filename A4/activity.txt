@@ -1,0 +1,19 @@
+@startuml
+start
+
+:Read all info from excel;
+:Greyscale transform;
+:Initialize **max**;
+
+while (Could we find a interval which made up of all white points?) is (yes)
+	if (Length of tuple is longer than that of **max**?) then(yes)
+		:max = this tuple;
+	else (no)
+	endif 
+endwhile (no)
+
+:Print this **max** interval;
+:Draw the greyscale image;
+
+stop
+@enduml
