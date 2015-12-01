@@ -11,7 +11,7 @@ def display(array):
 
 # Grayscale transform function
 def extreme(value):
-	return (BLACK if value < WHITE / 2 else WHITE)
+	return (BLACK if value < WHITE // 1.5 else WHITE)
 
 def square(value):
 	return WHITE * (value / WHITE)**2

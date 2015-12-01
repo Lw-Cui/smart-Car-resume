@@ -2,6 +2,7 @@
 import Image
 import pylab
 import numpy
+import Queue
 from variable import *
 
 # Get surrounding points(left, right, up, down and diagon)
@@ -21,7 +22,6 @@ def valid((x, y)):
 
 visit = numpy.zeros((40, 100), dtype='bool')
 
-
 # Depth-First search to find valid line
 def findline(im, tuple, line):
 	if terminal(tuple):
@@ -35,3 +35,29 @@ def findline(im, tuple, line):
 				line.append(tuple)
 				return True
 	return False
+
+
+# Breadth-First search for image processing
+def findline_BFS(im, tp, line):
+	prev = numpy.ndarray((40, 100), dtype=tuple)
+	q = Queue.Queue()
+	q.put(tp)
+	visit[tp] = True
+
+
+	while q.empty() != True:
+		now = q.get()
+		for next in round(now):
+			if valid(next) and visit[next] == False and im[next] != im[now]:
+				visit[next] = True
+				prev[next] = now
+				q.put(next)
+				if terminal(next):
+					while prev[next] != None:
+						line.append(next)
+						next = prev[next]
+					return True
+
+	return False
+
+
